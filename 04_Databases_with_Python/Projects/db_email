@@ -1,0 +1,70 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "zqian@umich.edu 195\nmmmay@indiana.edu 161\ncwen@iupui.edu 158\nchmaurer@iupui.edu 111\naaronz@vt.edu 110\nian@caret.cam.ac.uk 96\njimeng@umich.edu 93\nrjlowe@iupui.edu 90\ndlhaines@umich.edu 84\ndavid.horwitz@uct.ac.za 67\n"
+     ]
+    }
+   ],
+   "source": [
+    "import sqlite3\n",
+    "\n",
+    "conn = sqlite3.connect('E://Users/Trenton J. McKinney/Documents/Programming/Coursera/databases/emaildb.sqlite')\n",
+    "cur = conn.cursor()\n",
+    "\n",
+    "cur.execute('DROP TABLE IF EXISTS Counts')\n",
+    "cur.execute('CREATE TABLE Counts (email TEXT, count INTEGER)')\n",
+    "\n",
+    "f_name = 'mbox.txt'\n",
+    "fh = open(f_name)\n",
+    "for line in fh:\n",
+    "    if not line.startswith('From: '):\n",
+    "        continue\n",
+    "    pieces = line.split()\n",
+    "    email = pieces[1]\n",
+    "    cur.execute('SELECT count FROM Counts WHERE email = ? ', (email,))\n",
+    "    row = cur.fetchone()\n",
+    "    if row is None:\n",
+    "        cur.execute('INSERT INTO Counts (email, count) VALUES ( ?, 1 )', (email,))\n",
+    "    else:\n",
+    "        cur.execute('UPDATE Counts SET count=count+1 WHERE email = ?', (email,))\n",
+    "    conn.commit()\n",
+    "\n",
+    "sql_str = 'SELECT email, count FROM Counts ORDER BY count DESC LIMIT 10'\n",
+    "\n",
+    "for row in cur.execute(sql_str):\n",
+    "    print str(row[0]), row[1]\n",
+    "\n",
+    "cur.close()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "cur.close()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    ""
+   ]
+  }
+ ],
+ "metadata": {},
+ "nbformat": 4,
+ "nbformat_minor": 0
+}

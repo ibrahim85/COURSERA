@@ -1,0 +1,112 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 2,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import sqlite3 as sql\n",
+    "\n",
+    "conn = sql.connect('E://Users/Trenton J. McKinney/Documents/Programming/Coursera/databases/Ages.db')\n",
+    "\n",
+    "c = conn.cursor()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "c.execute(\"CREATE TABLE Ages(name VARCHAR(128), age INTEGER)\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "conn.commit()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "c.execute(\"DELETE FROM Ages\")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 18,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "values_to_insert = [('Saharra', 19), ('Shanea', 32), ('Kizzy', 28), ('Zeph', 17), ('Imogem', 33), ('Nancy', 23)]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<sqlite3.Cursor at 0x3d0ff10>"
+      ]
+     },
+     "execution_count": 19,
+     "output_type": "execute_result",
+     "metadata": {}
+    }
+   ],
+   "source": [
+    "c.executemany('INSERT INTO Ages VALUES (?, ?)', values_to_insert)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[(u'496D6F67656D3333',), (u'4B697A7A793238',), (u'4E616E63793233',), (u'536168617272613139',), (u'5368616E65613332',), (u'5A6570683137',)]\n"
+     ]
+    }
+   ],
+   "source": [
+    "c.execute(\"SELECT hex(name || age) AS X FROM Ages ORDER by X\")\n",
+    "print c.fetchall()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "conn.close()  # close the connection"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    ""
+   ]
+  }
+ ],
+ "metadata": {},
+ "nbformat": 4,
+ "nbformat_minor": 0
+}

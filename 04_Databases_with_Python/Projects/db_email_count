@@ -1,0 +1,91 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Welcome Trenton J. McKinney from Using Databases with Python\n",
+    "\n",
+    "To get credit for this assignment, perform the instructions below and upload your SQLite3 database here:\n",
+    "\n",
+    "(Must have a .sqlite suffix)\n",
+    "Hint: The top organizational count is 536.\n",
+    "\n",
+    "You do not need to export or convert the database - simply upload the .sqlite file that your program creates. See the example code for the use of the connect() statement.\n",
+    "\n",
+    "Counting Organizations\n",
+    "This application will read the mailbox data (mbox.txt) count up the number email messages per organization (i.e. domain name of the email address) using a database with the following schema to maintain the counts.\n",
+    "\n",
+    "CREATE TABLE Counts (org TEXT, count INTEGER)\n",
+    "When you have run the program on mbox.txt upload the resulting database file above for grading.\n",
+    "If you run the program multiple times in testing or with dfferent files, make sure to empty out the data before each run.\n",
+    "\n",
+    "You can use this code as a starting point for your application: http://www.pythonlearn.com/code/emaildb.py. The data file for this application is the same as in previous assignments: http://www.pythonlearn.com/code/mbox.txt."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "iupui.edu 536\numich.edu 491\nindiana.edu 178\ncaret.cam.ac.uk 157\nvt.edu 110\nuct.ac.za 96\nmedia.berkeley.edu 56\nufp.pt 28\ngmail.com 25\net.gatech.edu 17\ntxstate.edu 17\nwhitman.edu 17\nlancaster.ac.uk 14\nbu.edu 14\nstanford.edu 12\nunicon.net 9\nloi.nl 9\nrsmart.com 8\nucdavis.edu 1\nfhda.edu 1\nutoronto.ca 1\n"
+     ]
+    }
+   ],
+   "source": [
+    "import sqlite3\n",
+    "import re\n",
+    "\n",
+    "conn = sqlite3.connect('E://Users/Trenton J. McKinney/Documents/Programming/Coursera/databases/email_count_db.sqlite')\n",
+    "cur = conn.cursor()\n",
+    "\n",
+    "cur.execute('''\n",
+    "DROP TABLE IF EXISTS Counts''')\n",
+    "\n",
+    "cur.execute('''\n",
+    "CREATE TABLE Counts (org TEXT, count INTEGER)''')\n",
+    "\n",
+    "# f_name = 'mbox-short.txt'\n",
+    "f_name = 'mbox.txt'\n",
+    "fh = open(f_name)\n",
+    "for line in fh:\n",
+    "    if not line.startswith('From: '):\n",
+    "        continue\n",
+    "    domain = (re.findall('^From.*@([^ ]*)', line)[0]).strip()\n",
+    "    cur.execute('SELECT count FROM Counts WHERE org = ? ', (domain,))\n",
+    "    row = cur.fetchone()\n",
+    "    if row is None:\n",
+    "        cur.execute('''INSERT INTO Counts (org, count) \n",
+    "                VALUES ( ?, 1 )''', (domain,))\n",
+    "    else:\n",
+    "        cur.execute('UPDATE Counts SET count=count+1 WHERE org = ?',\n",
+    "                    (domain,))\n",
+    "    conn.commit()\n",
+    "\n",
+    "# https://www.sqlite.org/lang_select.html\n",
+    "sql_str = 'SELECT org, count FROM Counts ORDER BY count DESC'\n",
+    "\n",
+    "for row in cur.execute(sql_str):\n",
+    "    print str(row[0]), row[1]\n",
+    "\n",
+    "cur.close()"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    ""
+   ]
+  }
+ ],
+ "metadata": {},
+ "nbformat": 4,
+ "nbformat_minor": 0
+}

@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>db_multi_table</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.ln { color: rgb(0,0,0); font-weight: normal; font-style: normal; }
+.s0 { color: rgb(169,183,198); }
+</style>
+</head>
+<BODY BGCOLOR="#2b2b2b">
+<TABLE CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#C0C0C0" >
+<TR><TD><CENTER>
+<FONT FACE="Arial, Helvetica" COLOR="#000000">
+db_multi_table</FONT>
+</center></TD></TR></TABLE>
+<pre>
+<span class="s0">{ 
+ &quot;cells&quot;: [ 
+  { 
+   &quot;cell_type&quot;: &quot;markdown&quot;, 
+   &quot;metadata&quot;: {}, 
+   &quot;source&quot;: [ 
+    &quot;To get credit for this assignment, perform the instructions below and upload your SQLite3 database here: \n&quot;, 
+    &quot;\n&quot;, 
+    &quot;You do not need to export or convert the database - simply upload the .sqlite file that your program creates. See the example code for the use of the connect() statement.\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;Musical Track Database\n&quot;, 
+    &quot;This application will read an iTunes export file in XML and produce a properly normalized database with this structure:\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;CREATE TABLE Artist (\n&quot;, 
+    &quot;    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n&quot;, 
+    &quot;    name    TEXT UNIQUE\n&quot;, 
+    &quot;);\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;CREATE TABLE Genre (\n&quot;, 
+    &quot;    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n&quot;, 
+    &quot;    name    TEXT UNIQUE\n&quot;, 
+    &quot;);\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;CREATE TABLE Album (\n&quot;, 
+    &quot;    id  INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE,\n&quot;, 
+    &quot;    artist_id  INTEGER,\n&quot;, 
+    &quot;    title   TEXT UNIQUE\n&quot;, 
+    &quot;);\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;CREATE TABLE Track (\n&quot;, 
+    &quot;    id  INTEGER NOT NULL PRIMARY KEY \n&quot;, 
+    &quot;        AUTOINCREMENT UNIQUE,\n&quot;, 
+    &quot;    title TEXT  UNIQUE,\n&quot;, 
+    &quot;    album_id  INTEGER,\n&quot;, 
+    &quot;    genre_id  INTEGER,\n&quot;, 
+    &quot;    len INTEGER, rating INTEGER, count INTEGER\n&quot;, 
+    &quot;);\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;If you run the program multiple times in testing or with different files, make sure to empty out the data before each run.\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;You can use this code as a starting point for your application: http://www.pythonlearn.com/code/tracks.zip. The ZIP file contains the Library.xml file to be used for this assignment. You can export your own tracks from iTunes and create a database, but for the database that you turn in for this assignment, only use the Library.xml data that is provided.\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;To grade this assignment, the program will run a query like this on your uploaded database and look for the data it expects to see:\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;SELECT Track.title, Artist.name, Album.title, Genre.name \n&quot;, 
+    &quot;    FROM Track JOIN Genre JOIN Album JOIN Artist \n&quot;, 
+    &quot;    ON Track.genre_id = Genre.ID and Track.album_id = Album.id \n&quot;, 
+    &quot;        AND Album.artist_id = Artist.id\n&quot;, 
+    &quot;    ORDER BY Artist.name LIMIT 3\n&quot;, 
+    &quot;\n&quot;, 
+    &quot;The expected result of this query on your database is:\n&quot;, 
+    &quot;Track\t\t\t\t\tArtist\tAlbum\t\tGenre\n&quot;, 
+    &quot;Chase the Ace\t\t\t\tAC/DC\tWho Made Who\tRock\n&quot;, 
+    &quot;D.T.\t\t\t\t\tAC/DC\tWho Made Who\tRock\n&quot;, 
+    &quot;For Those About To Rock (We Salute You)\tAC/DC\tWho Made Who\tRock&quot; 
+   ] 
+  }, 
+  { 
+   &quot;cell_type&quot;: &quot;code&quot;, 
+   &quot;execution_count&quot;: null, 
+   &quot;metadata&quot;: {}, 
+   &quot;outputs&quot;: [], 
+   &quot;source&quot;: [ 
+    &quot;&quot; 
+   ] 
+  } 
+ ], 
+ &quot;metadata&quot;: {}, 
+ &quot;nbformat&quot;: 4, 
+ &quot;nbformat_minor&quot;: 0 
+}</span></pre>
+</body>
+</html>
